@@ -16,30 +16,6 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    public double calculateTotalAvg(){
-        List<Expense> expenses = expenseRepository.findAll();
-
-        int count = expenses.size();
-        double totalAccommodation=0, totalFood=0, totalOther=0,
-                totalShopping=0, totalTransportation=0;
-
-        for (Expense expense : expenses) {
-            totalAccommodation += expense.getAccommodation();
-            totalFood += expense.getFood();
-            totalOther += expense.getOther();
-            totalShopping += expense.getShopping();
-            totalTransportation += expense.getTransportation();
-        }
-
-        double avgAccommodation = totalAccommodation/count;
-        double avgFood = totalFood/count;
-        double avgOther = totalOther/count;
-        double avgShopping = totalShopping/count;
-        double avgTransportation = totalTransportation/count;
-
-
-        return (avgAccommodation+avgFood+avgOther+avgShopping+avgTransportation) / 5;
-    }
 
     public Map<String, Double> calculateCategoryAverages() {
         List<Expense> expenses = expenseRepository.findAll();
@@ -64,6 +40,20 @@ public class ExpenseService {
         averages.put("transportation_average", totalTransportation / count);
         return averages;
     }
+    public Map<String, Double> calculateTotalAverage() {
+        List<Expense> expenses = expenseRepository.findAll();
+        int count = expenses.size();
+        double totalSum = 0;
 
+        for (Expense expense : expenses) {
+            totalSum += (expense.getAccommodation() + expense.getFood() + expense.getOther() +
+                    expense.getShopping() + expense.getTransportation());
+        }
+
+        double totalAverage = totalSum / (count * 5); // 모든 항목의 평균의 평균
+        Map<String, Double> result = new HashMap<>();
+        result.put("total_average", totalAverage);
+        return result;
+    }
 
 }

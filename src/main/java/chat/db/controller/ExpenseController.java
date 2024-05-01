@@ -23,18 +23,15 @@ public class ExpenseController {
         return expenseRepository.save(expense);
     }
 
-    @GetMapping("/avg")
-    public ResponseEntity<Double> totalAverage(){
-        double average = expenseService.calculateTotalAvg();
-        return ResponseEntity.ok()
-                .body(Math.floor(average));
-    }
-
     @GetMapping("/averages")
     public ResponseEntity<Map<String, Double>> getCategoryAverages() {
         Map<String, Double> averages = expenseService.calculateCategoryAverages();
         return ResponseEntity.ok()
                 .body(averages);
     }
-
+    @GetMapping("/totalAverage")
+    public ResponseEntity<Map<String, Double>> getTotalAverage() {
+        Map<String, Double> totalAverage = expenseService.calculateTotalAverage();
+        return ResponseEntity.ok(totalAverage);
+    }
 }
