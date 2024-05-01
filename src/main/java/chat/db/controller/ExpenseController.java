@@ -35,3 +35,5 @@ public class ExpenseController {
         return ResponseEntity.ok(totalAverage);
     }
 }
+
+
